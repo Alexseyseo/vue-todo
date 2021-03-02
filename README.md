@@ -1,5 +1,8 @@
 # vue-todo
 
+## dep
+- node: 12.18.3
+
 ## Project setup
 ```
 npm install
