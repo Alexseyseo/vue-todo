@@ -3,8 +3,8 @@
         <template v-if="!editMode">
             <input :checked="todo.isComplete" class="form-check-input me-2" type="checkbox" @input="toggleTodo($event.target.checked)">
             <span class="me-auto">{{ todo.text }}</span>
-            <span class="btn btn-outline-secondary btn-sm me-1" type="button" @click="editMode = true">Редактировать</span>
-            <span class="btn btn-outline-secondary btn-sm" type="button" @click="removeTodo">x</span>
+            <button class="btn btn-outline-secondary btn-sm me-1" type="button" @click.prevent="editMode = true">Редактировать</button>
+            <button class="btn btn-outline-secondary btn-sm" type="button" @click.prevent="removeTodo">x</button>
         </template>
         <template v-else>
             <div class="input-group">
@@ -12,11 +12,11 @@
                     v-model.trim="editedValue"
                     @keyup.enter="editTodo"
                     type="text"
-                    class="form-control"
+                    class="form-control form-control-sm"
                     placeholder="Введите описание задачи..."
                 >
-                <button class="btn btn-outline-primary" type="button" @click.prevent="editTodo">Сохранить</button>
-                <button class="btn btn-outline-secondary" type="button" @click.prevent="editMode = false">Отмена</button>
+                <button class="btn btn-outline-primary btn-sm" type="button" @click.prevent="editTodo">Сохранить</button>
+                <button class="btn btn-outline-secondary btn-sm" type="button" @click.prevent="cancelEdit">Отмена</button>
             </div>
         </template>
     </label>
@@ -43,9 +43,6 @@ export default {
                 value: val
             })
         },
-        removeTodo: function () {
-            this.$store.commit('removeTodo', this.todo)
-        },
         editTodo: function () {
             if (!this.editedValue) return;
 
@@ -55,6 +52,13 @@ export default {
             })
 
             this.editMode = false;
+        },
+        removeTodo: function () {
+            this.$store.commit('removeTodo', this.todo)
+        },
+        cancelEdit: function () {
+            this.editMode = false;
+            this.editedValue = this.todo.text;
         }
     },
     computed: {

@@ -54,12 +54,8 @@ export default new Vuex.Store({
       })
     },
     toggleTodo: (state, payload) => {
-      state.todos = state.todos.map(todo => {
-        if (todo.id === payload.id) {
-          todo.isComplete = payload.value
-        }
-        return todo
-      })
+      const index = state.todos.findIndex(todo => todo.id === payload.id);
+      state.todos[index].isComplete = payload.value
     },
     removeTodo: (state, removeTodo) => {
       state.todos.splice(state.todos.findIndex(todo => todo.id === removeTodo.id), 1)
